@@ -1,0 +1,47 @@
+version: '3.7'
+
+services:
+  postgres-db:
+    image: postgres
+    restart: always
+    volumes:
+      - db_data:/var/lib/postgresql/data/
+      - ./create_databases.sh:/docker-entrypoint-initdb.d/init.sh
+    networks:
+      - rpi_net
+    ports:
+      - ${POSTGRES_HOST_PORT}:5432
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_DATABASES=${POSTGRES_DB}
+  django-admin:
+    build:
+      context: ./admin/rpi_home_automation_django
+      args:
+        python_image: ${PYTHON_IMAGE}
+    volumes:
+      - ./admin/rpi_home_automation_django/media:/usr/src/app/media
+    networks:
+      - rpi_net
+    depends_on:
+      - postgres-db
+    environment:
+      - DEBUG=${DEBUG}
+      - SECRET_KEY=${DJANGO_ADMIN_SECRET_KEY}
+      - DB_HOST=postgres-db
+      - DB_PORT=5432
+      - DB_USER=${POSTGRES_USER}
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
+      - DB_NAME=${POSTGRES_DB}
+      - DB_DRIVER=django.db.backends.postgresql_psycopg2
+      - RPI_ENABLED=${RPI_ENABLED}
+      - ALLOWED_HOSTS=${DJANGO_ADMIN_ALLOWED_HOSTS}
+
+
+volumes:
+  db_data:
+
+networks:
+  rpi_net:

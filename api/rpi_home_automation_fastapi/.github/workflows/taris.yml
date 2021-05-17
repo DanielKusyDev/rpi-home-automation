@@ -1,0 +1,46 @@
+name: taris
+
+on:
+  push:
+    branches: [ master, develop ]
+  pull_request:
+    branches: [ master, develop ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:alpine
+        env:
+          POSTGRES_USER: taris
+          POSTGRES_PASSWORD: taris
+          POSTGRES_DB: plants
+        ports:
+          - 5432:5432
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        touch /tmp/jwtRS256.key
+    - name: Run migrations and tests
+      env:
+        SECRET_KEY: secret
+        ALLOWED_HOSTS: 127.0.0.1
+        DB_NAME: plants
+        DB_USER: taris
+        DB_PASSWORD: taris
+        DB_HOST: 127.0.0.1
+        DB_PORT: 5432
+        DB_DRIVER: postgresql+psycopg2
+        JWT_SIGNING_KEY_FILE_PATH: /tmp/jwtRS256.key
+        RPI_ENABLED: false
+      run: |
+        export PYTHONPATH=$PWD && alembic upgrade heads
+        pytest
