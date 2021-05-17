@@ -1,14 +1,20 @@
 # rpi-home-automation
 
-This repository serve as a container template for smaller repos with microservices meant to act as
-a home automation system with Raspberry PI as the main hub.
+Home automation services packed into one repository meant to be ran on Raspberry PI.
 
-# Overview
+## General architecture
+![](./assets/diagram_v1.jpg)
 
-This repository consist of few (for now) microservices.
+Whole system consists of applications ran on Raspberry PI and other IoT devices. Each device has a set of sensors 
+attached controlled by simple applications (WIP) which sends messages to the controller using a given protocol. 
+The controller communicates with the database to determine what action should be executed. The action is a subprogram 
+called by the main controller instance.
 
-* **[FastAPI plants control](https://github.com/DanielKusyDev/fastapi-rpi-plants-control)** app to managing humidity, light and temperature sensors as a part of plants growth automation
-* **[FastAPI gateway](https://github.com/DanielKusyDev/rpi-gateway)** serving as a main connector between other microservices and the frontend app
-* ... more services in the future
-* **[Django Authentication](https://github.com/DanielKusyDev/django-auth-microservice)** service to perform AAA tasks 
-* **[Email microservice](https://github.com/DanielKusyDev/microservice-email)** in Go used by auth service
+## Communication
+Devices communicate with the controller through the TCP connection sending messages to a TCP server created by the 
+controller. The message is in a given format, depending on a used protocol.
+
+Right now the controller supports only a simple protocol called `Rpard`.
+
+[Rpard reference](./controller/protocol.md)
+

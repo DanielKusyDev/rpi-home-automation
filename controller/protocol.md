@@ -3,10 +3,9 @@
 # Rpard
 
 The protocol message consists of rows delimeted by EOL `\r\n`. Each row has two values separated with `:` sign.
-First value is a name of the attribute, and the second is an actual value. Right we have only two types as we
-expect only numbers to be sent over the protocol.TY
+First value is a name of the attribute, and the second is an actual value.
 
-###Request
+### Input message
 
 | Field | Value | Type      |                 |
 |-------|-------|-----------|-----------------|
