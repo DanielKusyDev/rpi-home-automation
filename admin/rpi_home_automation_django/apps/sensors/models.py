@@ -15,6 +15,7 @@ class SensorTypeEnum(models.TextChoices):
 
 class Device(models.Model):
     name = models.CharField(max_length=15, choices=DeviceEnum.choices)
+    mac_address = models.CharField(max_length=12, null=False)
 
     def __str__(self) -> str:
         return self.name
