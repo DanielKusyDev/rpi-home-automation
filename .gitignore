@@ -15,8 +15,6 @@ restful/!microservice-email/.gitkeep
 restful/rpi-gateway/*
 restful/!rpi-gateway/.gitkeep
 
-admin/rpi_home_automation_django
-
 controller/client.py
 # Byte-compiled / optimized / DLL files
 __pycache__/
