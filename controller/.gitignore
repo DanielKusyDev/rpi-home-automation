@@ -137,3 +137,5 @@ dmypy.json
 /app/RPi/
 media/
 /media/
+
+logs/*

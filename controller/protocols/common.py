@@ -1,2 +1,2 @@
 class InputError(ValueError):
-    ...
+    pass

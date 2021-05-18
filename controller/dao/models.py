@@ -12,3 +12,11 @@ sensor = Table(
     Column("plant_id", Integer),
     Column("sensor_type_id", Integer),
 )
+
+device = Table(
+    "sensors_device",
+    metadata,
+    Column("id", Integer),
+    Column("name", Unicode(15)),
+    Column("mac_address", Unicode(12)),
+)
