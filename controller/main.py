@@ -2,47 +2,47 @@ import asyncio
 from asyncio import StreamReader, StreamWriter
 from importlib import import_module
 
-from sqlalchemy import func
-
 from config import *
 from dao import engine
-from dao.models import cli, device, sensor
+from dao.crud import (fetch_device, fetch_sensor_with_given_id_and_device,
+                      update_sensor_state)
+from dao.models import cli
 from dao.utils import row_to_dict
 from protocols.common import InputError
 from protocols.rpard.domain import Code, Message, Response
 from protocols.rpard.reader import RpardReader
 from protocols.rpard.writer import RpardWriter
-from utils import get_mac_address
 
 
 def run_request(message: Message, hostname: str) -> Response:
     def call_cli(sensor_id: int) -> Code:
-        row = row_to_dict(engine.execute(cli.select().where(cli.c.sensor_id == sensor_id)).fetchone())
-        try:
-            module = import_module(row.get("module"), ".")
-        except ModuleNotFoundError:
-            logger.exception(f"Module not found for row {row}")
-            return Code.UNKNOWN_ERROR
+        row = engine.execute(cli.select().where(cli.c.sensor_id == sensor_id)).fetchone()
+        if row:
+            row = row_to_dict(row)
+            try:
+                module = import_module(row.get("module"), ".")
+            except ModuleNotFoundError:
+                logger.exception(f"Module not found for row {row}")
+                return Code.UNKNOWN_ERROR
 
-        name = row.get("name")
-        try:
-            params_from_db = row.get("parameters").replace(", ", ",").replace('"', "").split(",")
-            kwargs = dict([param.split("=") for param in params_from_db])
-            getattr(module, name)(**kwargs)
-        except Exception as e:
-            logger.exception(f"Exception thrown at {module}:{name}. EXC: {e}")
+            name = row.get("name")
+            try:
+                params_from_db = row.get("parameters").replace(", ", ",").replace('"', "").split(",")
+                kwargs = dict([param.split("=") for param in params_from_db])
+                getattr(module, name)(**kwargs)
+            except Exception as e:
+                logger.exception(f"Exception thrown at {module}:{name}. EXC: {e}")
 
         return Code.SUCCESS
 
-    this_mac = get_mac_address()
-    incoming_mac = get_mac_address(hostname)
-    fetched_device = engine.execute(device.select().where(func.lower(device.c.mac_address).in_((this_mac, incoming_mac)))).fetchone()
+    fetched_device = fetch_device(hostname)
     if fetched_device is None:
         return Response(Code.PERMISSION_ERROR)
 
-    if engine.execute(sensor.select().where(sensor.c.id == message.sensor_id).where(sensor.c.device_id == row_to_dict(fetched_device)["id"])) is None:
+    if fetch_sensor_with_given_id_and_device(message.sensor_id, row_to_dict(fetched_device)["id"]) is None:
         return Response(Code.NOT_FOUND_ERROR)
 
+    update_sensor_state(message)
     return Response(call_cli(sensor_id=message.sensor_id))
 
 
