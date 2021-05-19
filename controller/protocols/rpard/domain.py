@@ -6,10 +6,17 @@ from typing import Optional
 from protocols.common import InputError
 
 
+class Code(int, Enum):
+    SUCCESS = 0
+    UNKNOWN_ERROR = 1
+    PERMISSION_ERROR = 2
+    INPUT_VALIDATION_ERROR = 3
+    NOT_FOUND_ERROR = 4
+
+
 @dataclass
 class Response:
-    code: int
-    description: str = ""
+    code: Code
 
 
 class MessageType(Enum):

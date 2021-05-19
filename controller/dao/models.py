@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, DateTime, Integer, Table, Unicode
+from sqlalchemy import Boolean, Column, Integer, Table, Unicode, String
 
 from dao import metadata
 
@@ -18,5 +18,14 @@ device = Table(
     metadata,
     Column("id", Integer),
     Column("name", Unicode(15)),
-    Column("mac_address", Unicode(12)),
+    Column("mac_address", String(12)),
+)
+
+cli = Table(
+    "sensors_cli",
+    metadata,
+    Column("sensor_id", Integer),
+    Column("module", String(255)),
+    Column("name", String(255)),
+    Column("parameters", String(511)),
 )

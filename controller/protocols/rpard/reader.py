@@ -1,6 +1,4 @@
-from dao import engine
-from dao.models import sensor
-from protocols.rpard.message import HandlerChain, Message, Response
+from protocols.rpard.domain import HandlerChain, Message
 
 
 class RpardReader:
@@ -12,7 +10,3 @@ class RpardReader:
             message = HandlerChain(message)(line)
 
         return message
-
-    def process_request(self, message: Message) -> Response:
-        print(engine.execute(sensor.select().where(sensor.c.id == message.sensor_id)).fetchone())
-        return Response(code=1)

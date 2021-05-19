@@ -2,7 +2,7 @@ from asyncio import StreamWriter
 from dataclasses import dataclass
 from typing import Union
 
-from protocols.rpard.message import Response
+from protocols.rpard.domain import Response
 
 
 @dataclass(frozen=True)
@@ -15,5 +15,4 @@ class RpardWriter:
 
     def write(self, response: Response) -> None:
         data = self._construct_payload("CODE", response.code)
-        data += self._construct_payload("DESC", response.description)
         self._writer.write(data.encode())

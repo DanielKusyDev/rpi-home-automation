@@ -17,4 +17,12 @@ First value is a name of the attribute, and the second is an actual value.
 | Field | Value | Type |     |
 |-------|-------|------|-----|
 | CODE  | 1     | int  | 0,1 |
-| DESC  | Error | str  |     |
+
+#### Codes
+| Code | Description            |
+|------|------------------------|
+| 0    | success                |
+| 1    | unknown error          |
+| 2    | permission error       |
+| 3    | input validation error |
+| 4    | not found error        |
