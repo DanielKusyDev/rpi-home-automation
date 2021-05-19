@@ -1,6 +1,5 @@
-from django.db import models
-
 from apps.plants.models import Plant
+from django.db import models
 
 
 class DeviceEnum(models.TextChoices):
@@ -48,6 +47,5 @@ class Cli(models.Model):
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=["module", "name", "sensor"], name="UQ_cli__module__name__sensor_id"),
-            models.UniqueConstraint(fields=["module", "name"], name="UQ_cli__module__name"),
+            models.UniqueConstraint(fields=["module", "name", "parameters"], name="UQ_cli__module__name__parameters"),
         ]
