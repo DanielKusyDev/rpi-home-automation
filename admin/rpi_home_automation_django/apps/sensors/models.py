@@ -38,3 +38,16 @@ class Sensor(models.Model):
 
     def __str__(self) -> str:
         return f"{self.plant.name} [{self.sensor_type.name}]"
+
+
+class Cli(models.Model):
+    sensor = models.OneToOneField(to=Sensor, on_delete=models.SET_NULL, null=True, blank=True)
+    module = models.CharField(max_length=255, null=False)
+    name = models.CharField(max_length=255, null=False)
+    parameters = models.CharField(max_length=511, null=True, blank=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["module", "name", "sensor"], name="UQ_cli__module__name__sensor_id"),
+            models.UniqueConstraint(fields=["module", "name"], name="UQ_cli__module__name"),
+        ]
