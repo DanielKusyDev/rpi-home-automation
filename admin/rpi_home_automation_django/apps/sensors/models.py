@@ -33,7 +33,8 @@ class Sensor(models.Model):
     device = models.ForeignKey(to=Device, on_delete=models.CASCADE)
     description = models.TextField(null=True, blank=True)
     add_date = models.DateTimeField(auto_now_add=True)
-    state = models.BooleanField(default=False)
+    digital_output = models.BooleanField(null=True, blank=True)
+    analog_output = models.FloatField(null=True, blank=True)
 
     def __str__(self) -> str:
         return f"{self.plant.name} [{self.sensor_type.name}]"

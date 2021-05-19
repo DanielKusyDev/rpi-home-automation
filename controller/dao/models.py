@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, Integer, Table, Unicode, String
+from sqlalchemy import Boolean, Column, Float, Integer, String, Table, Unicode
 
 from dao import metadata
 
@@ -7,7 +7,8 @@ sensor = Table(
     metadata,
     Column("id", Integer),
     Column("description", Unicode(255)),
-    Column("state", Boolean),
+    Column("analog_output", Boolean),
+    Column("digital_output", Float),
     Column("device_id", Integer),
     Column("plant_id", Integer),
     Column("sensor_type_id", Integer),
