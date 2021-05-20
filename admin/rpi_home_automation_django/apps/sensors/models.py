@@ -28,6 +28,7 @@ class SensorType(models.Model):
 
 
 class Sensor(models.Model):
+    device_specific_id = models.CharField(max_length=32, null=True, blank=True)
     plant = models.ForeignKey(to=Plant, on_delete=models.SET_NULL, null=True, blank=True)
     sensor_type = models.ForeignKey(to=SensorType, on_delete=models.SET_NULL, null=True, blank=True)
     device = models.ForeignKey(to=Device, on_delete=models.CASCADE)
@@ -35,6 +36,11 @@ class Sensor(models.Model):
     add_date = models.DateTimeField(auto_now_add=True)
     analog_output = models.BooleanField(null=True, blank=True)
     digital_output = models.FloatField(null=True, blank=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["device", "device_specific_id"], name="UQ_device__device_specific_id"),
+        ]
 
     def __str__(self) -> str:
         return f"{self.plant.name} [{self.sensor_type.name}]"
