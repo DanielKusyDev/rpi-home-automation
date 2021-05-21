@@ -27,7 +27,8 @@ class MessageType(Enum):
 class Message:
     type_: MessageType
     value: float
-    sensor_id: int
+    device_specific_id: str
+    last_message: bool
 
 
 class MessageHandler(abc.ABC):
@@ -78,15 +79,26 @@ class SensorHandler(MessageHandler):
 
     def __call__(self, field: str, value: str) -> Message:
         if field == "SNSR":
+            self.message.device_specific_id = value
+        return self._next(self.message)(field, value)
+
+
+class EndOfMessageHandler(MessageHandler):
+    _next = SensorHandler
+
+    def __call__(self, field: str, value: str) -> Message:
+        if field == "EOM":
             try:
-                self.message.sensor_id = int(value)
+                self.message.last_message = bool(int(value))
+                if int(value) not in [0, 1]:
+                    raise ValueError
             except ValueError:
-                raise InputError("SNSR must be an integer")
+                raise InputError("EOM must be a 0/1 value (int)")
         return self._next(self.message)(field, value)
 
 
 class HandlerChain(MessageHandler):
-    _next = SensorHandler
+    _next = EndOfMessageHandler
 
     def __call__(self, data: str) -> Message:
         field, value = data.split(":")

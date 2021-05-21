@@ -4,7 +4,7 @@ from importlib import import_module
 
 from config import *
 from dao import engine
-from dao.crud import (fetch_device, fetch_sensor_with_given_id_and_device,
+from dao.crud import (fetch_device, fetch_sensor_with_given_device_specific_id,
                       update_sensor_state)
 from dao.models import cli
 from dao.utils import row_to_dict
@@ -38,29 +38,36 @@ def run_request(message: Message, hostname: str) -> Response:
     fetched_device = fetch_device(hostname)
     if fetched_device is None:
         return Response(Code.PERMISSION_ERROR)
-
-    if fetch_sensor_with_given_id_and_device(message.sensor_id, row_to_dict(fetched_device)["id"]) is None:
+    fetched_device = row_to_dict(fetched_device)
+    fetched_sensor = fetch_sensor_with_given_device_specific_id(message.device_specific_id, fetched_device["id"])
+    if fetched_sensor is None:
         return Response(Code.NOT_FOUND_ERROR)
 
+    fetched_sensor = row_to_dict(fetched_sensor)
     update_sensor_state(message)
-    return Response(call_cli(sensor_id=message.sensor_id))
+    return Response(call_cli(sensor_id=fetched_sensor["id"]))
 
 
 async def handle_connection(raw_reader: StreamReader, raw_writer: StreamWriter):
     addr = raw_writer.get_extra_info("peername")
     logger.info(f"ESTABLISHED: {addr}")
-    data = await raw_reader.read(1024)
     reader = RpardReader()
     writer = RpardWriter(raw_writer)
-    try:
-        message = reader.read(data)
-    except InputError:
-        response = Response(code=Code.INPUT_VALIDATION_ERROR)
-    else:
-        response = run_request(message, addr[0])
+    last_message = False
+    while not last_message:
+        data = await raw_reader.read(1024)
+        try:
+            message = reader.read(data)
+            logger.info(message)
+        except InputError as e:
+            response = Response(code=Code.INPUT_VALIDATION_ERROR)
+            last_message = True
+        else:
+            response = run_request(message, addr[0])
+            last_message = message.last_message
+        writer.write(response)
+        await raw_writer.drain()
 
-    writer.write(response)
-    await raw_writer.drain()
     raw_writer.close()
 
 

@@ -1,6 +1,6 @@
 import re
 from enum import Enum
-from typing import Dict, Any, Union
+from typing import Any, Dict, Union
 
 from sqlalchemy.engine import RowProxy
 

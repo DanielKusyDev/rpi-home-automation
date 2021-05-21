@@ -1,6 +1,5 @@
-from sqlalchemy import MetaData, create_engine
-
 from config import DB_DRIVER, DB_HOST, DB_NAME, DB_PASSWORD, DB_PORT, DB_USER
+from sqlalchemy import MetaData, create_engine
 
 SQLALCHEMY_DATABASE_URL = f"{DB_DRIVER}://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
