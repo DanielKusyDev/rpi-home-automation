@@ -6,22 +6,22 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('sensors', '0004_remove_module__sensor__unique_constraint'),
+        ("sensors", "0004_remove_module__sensor__unique_constraint"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='sensor',
-            name='state',
+            model_name="sensor",
+            name="state",
         ),
         migrations.AddField(
-            model_name='sensor',
-            name='analog_output',
+            model_name="sensor",
+            name="analog_output",
             field=models.FloatField(blank=True, null=True),
         ),
         migrations.AddField(
-            model_name='sensor',
-            name='digital_output',
+            model_name="sensor",
+            name="digital_output",
             field=models.BooleanField(blank=True, null=True),
         ),
     ]

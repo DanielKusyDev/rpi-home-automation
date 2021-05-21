@@ -10,7 +10,7 @@ from app.core.protocols.plant_repo import PlantRepo
 
 def _get_plant_with_urls(plant: Plant):
     if plant.image:
-        plant.image = BASE_URL + root_router.url_path_for('get_files', file_name=plant.image)
+        plant.image = BASE_URL + root_router.url_path_for("get_files", file_name=plant.image)
     plant.sensors = f"{BASE_URL}{sensors_router.url_path_for('get_all')}?plant_ids={plant.id}"
     return plant
 

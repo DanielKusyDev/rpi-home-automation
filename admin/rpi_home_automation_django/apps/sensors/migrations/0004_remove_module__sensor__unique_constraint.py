@@ -6,20 +6,20 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('sensors', '0003_add_cli_table'),
+        ("sensors", "0003_add_cli_table"),
     ]
 
     operations = [
         migrations.RemoveConstraint(
-            model_name='cli',
-            name='UQ_cli__module__name__sensor_id',
+            model_name="cli",
+            name="UQ_cli__module__name__sensor_id",
         ),
         migrations.RemoveConstraint(
-            model_name='cli',
-            name='UQ_cli__module__name',
+            model_name="cli",
+            name="UQ_cli__module__name",
         ),
         migrations.AddConstraint(
-            model_name='cli',
-            constraint=models.UniqueConstraint(fields=('module', 'name', 'parameters'), name='UQ_cli__module__name__parameters'),
+            model_name="cli",
+            constraint=models.UniqueConstraint(fields=("module", "name", "parameters"), name="UQ_cli__module__name__parameters"),
         ),
     ]

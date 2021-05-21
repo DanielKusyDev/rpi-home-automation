@@ -1,6 +1,5 @@
-from sqlalchemy import Boolean, Column, Float, Integer, String, Table, Unicode
-
 from dao import metadata
+from sqlalchemy import Boolean, Column, Float, Integer, String, Table, Unicode
 
 sensor = Table(
     "sensors_sensor",
@@ -12,6 +11,7 @@ sensor = Table(
     Column("device_id", Integer),
     Column("plant_id", Integer),
     Column("sensor_type_id", Integer),
+    Column("device_specific_id", String),
 )
 
 device = Table(

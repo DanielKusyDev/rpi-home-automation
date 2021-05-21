@@ -19,13 +19,7 @@ class SeedOperation(MigrateOperation):
         self.schema = schema
 
     @classmethod
-    def seed(
-        cls,
-        operations: Operations,
-        table_name: str,
-        rows: List[Dict],
-        schema: Optional[str]
-    ) -> Any:
+    def seed(cls, operations: Operations, table_name: str, rows: List[Dict], schema: Optional[str]) -> Any:
         """
         Merge given data rows into a DB table.
         * Items matched by comparing id_columns will be updated
@@ -59,9 +53,7 @@ def seed(operations: Operations, op: SeedOperation) -> None:
     operations.bulk_insert(temp_table, op.rows)
     if op.identity_insert:
         operations.execute(f"SET IDENTITY_INSERT {formatted_target_table} ON;")
-    operations.execute(
-        f"INSERT INTO {target_table.name} ({insert_col_names}) VALUES({insert_col_values})"
-    )
+    operations.execute(f"INSERT INTO {target_table.name} ({insert_col_names}) VALUES({insert_col_values})")
     if op.identity_insert:
         operations.execute(f"SET IDENTITY_INSERT {formatted_target_table} OFF;")
     operations.drop_table(temp_table.name)

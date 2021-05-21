@@ -1,11 +1,10 @@
 import enum
 from datetime import datetime
 
+from app.dao import metadata
 from sqlalchemy import (Boolean, Column, DateTime, ForeignKey, Integer, String,
                         Table, Unicode, UniqueConstraint)
 from sqlalchemy_utils import ChoiceType
-
-from app.dao import metadata
 
 
 class SensorTypeEnum(enum.Enum):
@@ -31,5 +30,5 @@ sensor = Table(
     Column("GpioChannel", Integer, ForeignKey("Gpio.Channel"), unique=True),
     Column("Description", Unicode(255), nullable=True, unique=False),
     Column("AddDate", DateTime, default=datetime.utcnow),
-    UniqueConstraint('PlantId', 'SensorTypeId', name='UQ__SensorTypeId__PlantId')
+    UniqueConstraint("PlantId", "SensorTypeId", name="UQ__SensorTypeId__PlantId"),
 )

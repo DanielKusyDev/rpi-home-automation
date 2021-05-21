@@ -6,14 +6,14 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('sensors', '0001_initialize_basic_models'),
+        ("sensors", "0001_initialize_basic_models"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='device',
-            name='mac_address',
-            field=models.CharField(default='59F06473D953', max_length=12),
+            model_name="device",
+            name="mac_address",
+            field=models.CharField(default="59F06473D953", max_length=12),
             preserve_default=False,
         ),
     ]

@@ -10,4 +10,5 @@ if __name__ == "__main__":
     finally:
         if RPI_ENABLED:
             import RPi.GPIO as GPIO
+
             GPIO.cleanup()

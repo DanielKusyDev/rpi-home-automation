@@ -2,7 +2,6 @@ import abc
 
 
 class ProtocolInterface(abc.ABC):
-
     @classmethod
     @abc.abstractmethod
     def read(cls, data: bytes, *args, **kwargs):

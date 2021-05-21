@@ -6,17 +6,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('sensors', '0006_fix_wrongly_defined_analog_and_digital_outputs'),
+        ("sensors", "0006_fix_wrongly_defined_analog_and_digital_outputs"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='sensor',
-            name='device_specific_id',
+            model_name="sensor",
+            name="device_specific_id",
             field=models.CharField(blank=True, max_length=32, null=True),
         ),
         migrations.AddConstraint(
-            model_name='sensor',
-            constraint=models.UniqueConstraint(fields=('device', 'device_specific_id'), name='UQ_device__device_specific_id'),
+            model_name="sensor",
+            constraint=models.UniqueConstraint(fields=("device", "device_specific_id"), name="UQ_device__device_specific_id"),
         ),
     ]
