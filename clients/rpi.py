@@ -12,7 +12,7 @@ CHANNELS = [17, 27]
 
 SERVER_HOST = environ.get("SERVER_HOST")
 SERVER_PORT = environ.get("SERVER_PORT")
-SAMPLING_FREQ = environ.get("SAMPLING_FREQ", 60)
+SAMPLING_FREQ = int(environ.get("SAMPLING_FREQ", 60))
 
 
 @dataclass
@@ -46,9 +46,10 @@ async def main():
             print(await reader.read(1000))
 
         message = Message(int(GPIO.input(CHANNELS[-1])), CHANNELS[-1], 1)
+        print(message)
         writer.write(message.encode())
         print(await reader.read(1024))
-
+        print("SLEEPING")
         writer.close()
 
         sleep(SAMPLING_FREQ)
