@@ -38,7 +38,25 @@ services:
       - DB_DRIVER=django.db.backends.postgresql_psycopg2
       - RPI_ENABLED=${RPI_ENABLED}
       - ALLOWED_HOSTS=${DJANGO_ADMIN_ALLOWED_HOSTS}
-
+  controller:
+    build:
+      context: ./controller
+      args:
+        python_image: ${PYTHON_IMAGE}
+    entrypoint: ["python3", "main.py"]
+    networks:
+      - rpi_net
+    depends_on:
+      - django-admin
+    environment:
+      - SERVER_HOST=0.0.0.0
+      - SERVER_PORT=2999
+      - DB_HOST=postgres-db
+      - DB_PORT=5432
+      - DB_USER=docker
+      - DB_PASSWORD=docker
+      - DB_NAME=docker
+      - DB_DRIVER=postgresql+psycopg2
 
 volumes:
   db_data:

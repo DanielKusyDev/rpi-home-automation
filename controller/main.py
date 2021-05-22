@@ -2,21 +2,16 @@ import asyncio
 from asyncio import StreamReader, StreamWriter
 from importlib import import_module
 
-from dotenv import load_dotenv
-
 from config import *
 from dao import engine
-from dao.crud import fetch_device, fetch_sensor_with_given_device_specific_id, update_sensor_state
+from dao.crud import (fetch_device, fetch_sensor_with_given_device_specific_id,
+                      update_sensor_state)
 from dao.models import cli
 from dao.utils import row_to_dict
 from protocols.common import InputError
 from protocols.rpard.domain import Code, Message, Response
 from protocols.rpard.reader import RpardReader
 from protocols.rpard.writer import RpardWriter
-
-load_dotenv()
-SERVER_HOST = environ.get("SERVER_HOST")
-SERVER_PORT = environ.get("SERVER_PORT")
 
 
 def run_request(message: Message, hostname: str) -> Response:

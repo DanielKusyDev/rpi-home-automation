@@ -1,13 +1,9 @@
 import re
 from enum import Enum
-from typing import Any, Dict, Union
-
-from sqlalchemy.engine import RowProxy
-
-Row = Union[RowProxy, Dict[str, Union[Enum, Any]]]
+from typing import Any, Dict
 
 
-def row_to_dict(row: Row, keys_to_snake_case=True) -> Dict[str, Any]:
+def row_to_dict(row, keys_to_snake_case=True) -> Dict[str, Any]:
     def to_snake_case(string: str) -> str:
         string = re.sub("(.)([A-Z][a-z]+)", r"\1_\2", string)
         string = re.sub("(.)([0-9]+)", r"\1_\2", string)
