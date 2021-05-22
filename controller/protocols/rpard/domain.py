@@ -30,6 +30,9 @@ class Message:
     device_specific_id: str
     last_message: bool
 
+    def __str__(self):
+        return f"TYP:{self.type_} VAL:{self.value} SNSR:{self.device_specific_id} EOM:{int(self.last_message)}"
+
 
 class MessageHandler(abc.ABC):
     message: Optional[Message] = None
