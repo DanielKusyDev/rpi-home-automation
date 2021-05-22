@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 
-from admin.rpi_home_automation_django.apps.sensors.models import Sensor
+from apps.sensors.models import Sensor
 
 
 class PlantAdmin(admin.ModelAdmin):
