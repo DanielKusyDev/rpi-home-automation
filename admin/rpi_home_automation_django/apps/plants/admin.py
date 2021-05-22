@@ -4,6 +4,8 @@ from django.contrib import admin
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 
+from admin.rpi_home_automation_django.apps.sensors.models import Sensor
+
 
 class PlantAdmin(admin.ModelAdmin):
     class Media:
@@ -12,10 +14,14 @@ class PlantAdmin(admin.ModelAdmin):
     list_display = ("name", "description", "sensors")
 
     def sensors(self, obj: Plant) -> str:
-        def sensor_to_icon(sensor):
+        def sensor_to_icon(sensor: Sensor):
+            if isinstance(sensor.analog_output, bool):
+                color = "green" if sensor.analog_output else "red"
+            else:
+                color = "gray"
             return f"""
             <a href="{reverse("admin:sensors_sensor_change", kwargs={"object_id": sensor.pk})}">
-                <i style="color: {"green" if sensor.state else "red"}" class="{SENSOR_STATES_ICONS[sensor.sensor_type.name]} fa-2x"></i>
+                <i style="color: {color}" class="{SENSOR_STATES_ICONS[sensor.sensor_type.name]} fa-2x"></i>
             </a>    
             """
 
