@@ -1,7 +1,7 @@
 from apps.sensors.models import Sensor, SensorType
 from django.contrib import admin
 
-from admin.rpi_home_automation_django.apps.sensors.models import Device
+from apps.sensors.models import Device
 
 
 @admin.register(Sensor)
