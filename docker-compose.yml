@@ -27,6 +27,8 @@ services:
       - rpi_net
     depends_on:
       - postgres-db
+    ports:
+    - 8000:8000
     environment:
       - DEBUG=${DEBUG}
       - SECRET_KEY=${DJANGO_ADMIN_SECRET_KEY}
