@@ -10,7 +10,7 @@ First value is a name of the attribute, and the second is an actual value.
 * _SNSR_ - device specific sensor ID
 * _TYP_ - either DGT for digital output or ANL for analog
 * _VAL_ - actual value, integer for ANL TYP and float/integer for DGT
-* _EOM_ - End Of Message. Indicates if there are more message in a single connection
+* _EOM_ - End Of Message. Indicates if there are more messages in a single connection
 
 | Field | Value | Type      |                 |
 |-------|-------|-----------|-----------------|

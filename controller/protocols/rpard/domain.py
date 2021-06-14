@@ -50,13 +50,13 @@ class ValueHandler(MessageHandler):
 
     def __call__(self, field: str, value: str) -> Message:
         if field == "VAL":
-            if self.message.type_ == MessageType.ANALOG:
+            if self.message.type_ == MessageType.DIGITAL:
                 try:
                     self.message.value = int(value)
                     if self.message.value not in (1, 0):
                         raise ValueError
                 except ValueError:
-                    raise InputError("Message's value with type of ANL must be one of 0, 1")
+                    raise InputError("Message's value with type of DGT must be one of 0, 1")
             else:
                 self.message.value = float(value)
         return self.message

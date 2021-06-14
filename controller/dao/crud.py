@@ -3,6 +3,7 @@ from dao.models import device, sensor
 from protocols.rpard.domain import Message, MessageType
 from sqlalchemy import func, update
 from utils import get_mac_address
+from config import logger
 
 
 def update_sensor_state(message: Message) -> None:
@@ -24,6 +25,7 @@ def fetch_sensor_with_given_device_specific_id(device_specific_id: str, device_i
 
 def fetch_device(hostname: str):
     with engine.begin() as conn:
-        row = conn.execute(device.select().where(func.lower(device.c.mac_address).in_((get_mac_address(), get_mac_address(hostname))))).fetchone()
+        mac_address = get_mac_address(ip=hostname)
+        row = conn.execute(device.select().where(func.lower(device.c.mac_address) == mac_address)).fetchone()
 
     return row

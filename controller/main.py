@@ -37,10 +37,12 @@ def run_request(message: Message, hostname: str) -> Response:
 
     fetched_device = fetch_device(hostname)
     if fetched_device is None:
+        logger.info("Host not permitted.")
         return Response(Code.PERMISSION_ERROR)
     fetched_device = row_to_dict(fetched_device)
     fetched_sensor = fetch_sensor_with_given_device_specific_id(message.device_specific_id, fetched_device["id"])
     if fetched_sensor is None:
+        logger.info(f"Sensor {message.device_specific_id} do not belong to device with ID {fetched_device['id']}")
         return Response(Code.NOT_FOUND_ERROR)
 
     fetched_sensor = row_to_dict(fetched_sensor)
@@ -58,7 +60,7 @@ async def handle_connection(raw_reader: StreamReader, raw_writer: StreamWriter):
         data = await raw_reader.read(1024)
         try:
             message = reader.read(data)
-            logger.info(message)
+            logger.info(data)
         except InputError as e:
             response = Response(code=Code.INPUT_VALIDATION_ERROR)
             last_message = True

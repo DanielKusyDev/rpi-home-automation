@@ -2,10 +2,6 @@ from apps.plants.models import Plant
 from django.db import models
 
 
-class DeviceEnum(models.TextChoices):
-    RASPBERRY_PI = "RPI"
-
-
 class SensorTypeEnum(models.TextChoices):
     MOISTURE = "MOISTURE"
     TEMPERATURE = "TEMPERATURE"
@@ -13,7 +9,7 @@ class SensorTypeEnum(models.TextChoices):
 
 
 class Device(models.Model):
-    name = models.CharField(max_length=15, choices=DeviceEnum.choices)
+    name = models.CharField(max_length=64)
     mac_address = models.CharField(max_length=12, null=False)
 
     def __str__(self) -> str:
