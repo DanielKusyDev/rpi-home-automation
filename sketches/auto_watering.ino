@@ -9,7 +9,7 @@
 // Network config
 const char *ssid = SECRET_SSID;
 const char *password = SECRET_SSID_PASSWORD;
-const char *host = "192.168.1.12";
+const char *host = SECRET_HOST;
 const int port = 2998;
 
 // Message config
@@ -21,8 +21,8 @@ const String digitalType = String("DGT");
 // Pump control
 const int wateringLimit = 2;
 const int loopDelayWhileWatering = 1 * 1000;
-const int loopDelayBetweenWatering = 5 * 1000;
-const int loopsBetweenWatering = 15;
+const int loopDelayBetweenWatering = 60 * 60 * 1000; // 1 hour delay
+const int loopsBetweenWatering = 2;
 
 int wateringDuration = 0;
 int iterationsWithoutWatering = 0;
@@ -88,7 +88,10 @@ void setup() {
 }
 
 void loop() {
-  int moistureLevel = digitalRead(MOISTURE_SENSOR);
+  int moistureLevel = digitalRead(
+
+
+);
   int lightLevel = analogRead(LIGHT_SENSOR);
   int waterPumpOn = digitalRead(RELAY);
   if (waterPumpOn) {
@@ -100,6 +103,8 @@ void loop() {
     delay(loopDelayBetweenWatering);
     Serial.println("Time without watering: "); Serial.println(iterationsWithoutWatering);
   }
+
+  Serial.println(moistureLevel);
 
   bool waterPumpShouldStart = (waterPumpOn == LOW && moistureLevel == HIGH &&
                                iterationsWithoutWatering > loopsBetweenWatering);
