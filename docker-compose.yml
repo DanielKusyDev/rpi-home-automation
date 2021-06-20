@@ -53,7 +53,7 @@ services:
     ports:
     - 2999:2999
     environment:
-      - SERVER_HOST=127.0.0.1
+      - SERVER_HOST=0.0.0.0
       - SERVER_PORT=2999
       - DB_HOST=postgres-db
       - DB_PORT=5432
