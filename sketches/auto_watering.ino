@@ -88,10 +88,7 @@ void setup() {
 }
 
 void loop() {
-  int moistureLevel = digitalRead(
-
-
-);
+  int moistureLevel = digitalRead(MOISTURE_SENSOR);
   int lightLevel = analogRead(LIGHT_SENSOR);
   int waterPumpOn = digitalRead(RELAY);
   if (waterPumpOn) {
@@ -107,7 +104,7 @@ void loop() {
   Serial.println(moistureLevel);
 
   bool waterPumpShouldStart = (waterPumpOn == LOW && moistureLevel == HIGH &&
-                               iterationsWithoutWatering > loopsBetweenWatering);
+                               iterationsWithoutWatering > loopsBetweenWatering-1);
   bool waterPumpShouldStop = (moistureLevel == LOW) || (wateringDuration > wateringLimit);
 
   if (waterPumpShouldStart) {
