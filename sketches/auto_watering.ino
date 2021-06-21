@@ -21,7 +21,7 @@ const String digitalType = String("DGT");
 // Pump control
 const int wateringLimit = 2;
 const int loopDelayWhileWatering = 1 * 1000;
-const int loopDelayBetweenWatering = 2 * 1000; // 1 hour delay
+const int loopDelayBetweenWatering = 60 * 60 * 1000; // 1 hour delay
 const int loopsBetweenWatering = 2;
 
 int wateringDuration = 0;
