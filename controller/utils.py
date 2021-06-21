@@ -1,10 +1,10 @@
 from typing import Optional
 
-import getmac as gm
+import arpreq as arpreq
 
 
-def get_mac_address(*args, **kwargs) -> Optional[str]:
-    mac_with_colons = gm.get_mac_address(*args, **kwargs)
+def get_mac_address(ip: str) -> Optional[str]:
+    mac_with_colons = arpreq.arpreq(ip)
     if mac_with_colons:
         return mac_with_colons.lower().replace(":", "").replace("-", "")
     return mac_with_colons

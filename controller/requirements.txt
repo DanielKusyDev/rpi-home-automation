@@ -1,4 +1,4 @@
-getmac==0.8.2
+arpreq==0.3.3
 greenlet==1.1.0
 loguru==0.5.3
 psycopg2-binary==2.8.6

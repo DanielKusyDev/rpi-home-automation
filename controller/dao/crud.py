@@ -3,7 +3,6 @@ from dao.models import device, sensor
 from protocols.rpard.domain import Message, MessageType
 from sqlalchemy import func, update
 from utils import get_mac_address
-from config import logger
 
 
 def update_sensor_state(message: Message) -> None:

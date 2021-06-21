@@ -10,7 +10,7 @@
 const char *ssid = SECRET_SSID;
 const char *password = SECRET_SSID_PASSWORD;
 const char *host = SECRET_HOST;
-const int port = 2998;
+const int port = SECRET_PORT;
 
 // Message config
 const String lightSensorId = String("LIGHT_001");
@@ -21,7 +21,7 @@ const String digitalType = String("DGT");
 // Pump control
 const int wateringLimit = 2;
 const int loopDelayWhileWatering = 1 * 1000;
-const int loopDelayBetweenWatering = 60 * 60 * 1000; // 1 hour delay
+const int loopDelayBetweenWatering = 2 * 1000; // 1 hour delay
 const int loopsBetweenWatering = 2;
 
 int wateringDuration = 0;

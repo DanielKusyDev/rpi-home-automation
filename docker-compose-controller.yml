@@ -1,0 +1,20 @@
+version: '3.7'
+
+services:
+  controller:
+    build:
+      context: ./controller
+      args:
+        python_image: ${PYTHON_IMAGE}
+    entrypoint: ["python3", "main.py"]
+    network_mode: host
+    privileged: true
+    environment:
+      - SERVER_HOST=0.0.0.0
+      - SERVER_PORT=2999
+      - DB_HOST=127.0.0.1
+      - DB_PORT=5432
+      - DB_USER=docker
+      - DB_PASSWORD=docker
+      - DB_NAME=docker
+      - DB_DRIVER=postgresql+psycopg2
