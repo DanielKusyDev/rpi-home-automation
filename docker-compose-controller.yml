@@ -13,7 +13,7 @@ services:
       - SERVER_HOST=0.0.0.0
       - SERVER_PORT=2999
       - DB_HOST=127.0.0.1
-      - DB_PORT=5432
+      - DB_PORT=${POSTGRES_HOST_PORT}
       - DB_USER=docker
       - DB_PASSWORD=docker
       - DB_NAME=docker
