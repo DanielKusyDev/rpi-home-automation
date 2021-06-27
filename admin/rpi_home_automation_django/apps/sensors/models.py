@@ -30,8 +30,8 @@ class Sensor(models.Model):
     device = models.ForeignKey(to=Device, on_delete=models.CASCADE)
     description = models.TextField(null=True, blank=True)
     add_date = models.DateTimeField(auto_now_add=True)
-    analog_output = models.BooleanField(null=True, blank=True)
-    digital_output = models.FloatField(null=True, blank=True)
+    analog_output = models.FloatField(null=True, blank=True)
+    digital_output = models.BooleanField(null=True, blank=True)
 
     class Meta:
         constraints = [
