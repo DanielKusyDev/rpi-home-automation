@@ -1,8 +1,8 @@
 from typing import Optional
 
-from app.config.settings import DEFAULT_PAGINATION_SIZE
 from fastapi import Query
-from requests import Request
+
+from app.config.settings import DEFAULT_PAGINATION_SIZE
 
 
 class PaginationParams:

@@ -29,8 +29,8 @@ DB_USER = cfg("DB_USER", cast=str, default="")
 DB_PASSWORD = cfg("DB_PASSWORD", cast=str, default="")
 DB_NAME = cfg("DB_NAME", cast=str)
 DB_DRIVER = cfg("DB_DRIVER", cast=str)
-RPI_ENABLED = cfg("RPI_ENABLED", cast=bool)
 BASE_URL = cfg("BASE_URL", cast=str, default=f"http://{HOST}:{PORT}{API_PREFIX}")
+OPEN_WEATHER_API_KEY = cfg("OPEN_WEATHER_API_KEY", cast=str)
 
 # logging configuration
 LOGGING_LEVEL = logging.DEBUG if DEBUG else logging.INFO
@@ -46,11 +46,7 @@ logger.configure(handlers=[{"sink": sys.stderr, "level": LOGGING_LEVEL}])
 # Api
 DEFAULT_PAGINATION_SIZE = 50
 
-# RPi
-if RPI_ENABLED:
-    import RPi.GPIO as GPIO
-
-    GPIO_MODE = GPIO.BCM
-else:
-    GPIO_MODE = 0
-GPIO_AVAILABLE_PINS = [5, 6, 16, 17, 22, 23, 24, 25, 26, 27]
+# OpenWeather
+LATITUDE = 51.22037861555075
+LONGITUDE = 22.500672147276436
+LANG = "PL"

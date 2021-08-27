@@ -1,25 +1,18 @@
 from dataclasses import dataclass
 from typing import Callable, cast
 
-from app.core.protocols.gpio_repo import GpioRepo
-from app.core.protocols.plant_repo import PlantRepo
-from app.core.protocols.sensor_repo import SensorRepo
-from app.dao.repositories import (gpio_repository, plant_repository,
-                                  sensor_repository)
+from app.adapters import weather_repository
+from app.domain.weather_protocol import WeatherProtocol
 
 
 @dataclass(frozen=True)
 class Dependencies:
-    plant_repo: PlantRepo
-    sensor_repo: SensorRepo
-    gpio_repo: GpioRepo
+    weather_repo: WeatherProtocol
 
 
 def _build_dependencies() -> Callable[[], Dependencies]:
     deps = Dependencies(
-        plant_repo=cast(PlantRepo, plant_repository),
-        sensor_repo=cast(SensorRepo, sensor_repository),
-        gpio_repo=cast(GpioRepo, gpio_repository),
+        weather_repo=cast(WeatherProtocol, weather_repository),
     )
 
     def fn() -> Dependencies:
