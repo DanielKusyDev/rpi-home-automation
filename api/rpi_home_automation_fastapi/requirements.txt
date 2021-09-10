@@ -1,0 +1,6 @@
+fastapi==0.68.1
+loguru==0.5.3
+requests==2.26.0
+toolz==0.11.1
+urllib3==1.26.6
+uvicorn==0.15.0
